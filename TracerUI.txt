@@ -1,0 +1,33 @@
+ethernet task:
+id - name
+ip - ip address
+loop_time - task read cyclic time in ms
+desc - description
+
+serial task:
+id - name
+com - com port
+baud_rate
+loop_time
+desc
+
+area:
+id - name
+type - Register (or InputRegister), HoldingRegister, Coil, DiscretInput
+	Register - Read 0x4, Write 0x6, Multiple write 0x10
+	HoldingRegister - Read 0x3
+	Coil - Read 0x1, Write 0x5, Multiple write 0xF
+	DiscreetInput - Read 0x2
+address - address in words
+count - area size in words
+access - R, W, RW (default)
+desc - description
+com_dev - device id for serial task
+
+node:
+id - name
+type - BIT (or BOOL), BYTE, WORD
+offset - BIT offset in bits, BYTE offset in bytes, WORD offset in words
+desc - description
+color_on - for BIT node, black, blue, darkgreen, gold, green, orange, pink, red, violet
+color_off - for BIT node, black, blue, darkgreen, gold, green, orange, pink, red, violet

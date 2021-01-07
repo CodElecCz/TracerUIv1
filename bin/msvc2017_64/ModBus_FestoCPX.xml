@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="windows-1250"?>
+<modbus>
+  <task id="HEAD" ip="192.168.1.101" loop_time="100" desc="Festo Head">
+      <!-- WORD access -->
+      <area id="Register" type="Register" address="0" count="5" desc="Head">
+        <node id="CLIMATE" type="BIT" offset="0"/>
+        <node id="DRIVE" type="BIT" offset="1"/>
+        <node id="MEDIA" type="BIT" offset="2"/>
+        <node id="NAV" type="BIT" offset="3"/>
+        <node id="C2" type="BIT" offset="4"/>
+        <node id="A2" type="BIT" offset="5"/>
+        <node id="C3" type="BIT" offset="6"/>
+        <node id="A4" type="BIT" offset="7"/>
+        <node id="A5" type="BIT" offset="8"/>
+        <node id="A6" type="BIT" offset="9"/>
+        <node id="C1" type="BIT" offset="10"/>
+        <node id="A8" type="BIT" offset="11"/>
+        <node id="C4" type="BIT" offset="12"/>
+        <node id="CONFIG" type="BIT" offset="13"/>
+        <node id="WEB" type="BIT" offset="14"/>
+        <node id="TEL" type="BIT" offset="15"/>
+        <node id="HYBRID" type="BIT" offset="16"/>
+      </area>
+  </task>
+  <task id="TESTER" ip="192.168.1.102" loop_time="100" desc="Festo Tester">
+      <!-- WORD access -->
+      <area id="Register" type="Register" address="0" count="8" desc="Tester">
+        <node id="OUT[0]" type="WORD" offset="0" desc="Outputs Tester">
+          <node id="SERVICE" type="BIT" offset="0" desc="Manual mode On"/>
+          <node id="CONTACT" type="BIT" offset="1"/>
+          <node id="CLEAN" type="BIT" offset="2"/>
+          <node id="LOCK" type="BIT" offset="3"/>
+          <node id="MARK" type="BIT" offset="4"/>
+          <node id="MASK_DOWN" type="BIT" offset="5"/>
+          <node id="KA03" type="BIT" offset="6" desc="Emergency module reset"/>
+          <node id="KA05" type="BIT" offset="7" desc="Light safety reset"/>
+          <node id="CAM12345_TRIG" type="BIT" offset="8"/>   
+          <node id="CAM67_TRIG" type="BIT" offset="9"/>
+          <node id="KA25" type="BIT" offset="10" desc="cROI supply"/>
+          <node id="T9" type="BIT" offset="11" desc=""/>   
+          <node id="T9X" type="BIT" offset="12" desc=""/>   
+          <node id="POSITION" type="BIT" offset="13" desc=""/>   
+          <node id="LVDS" type="BIT" offset="14" desc=""/>        
+        </node>   
+        <node id="OUT[1]" type="WORD" offset="1" desc="Outputs Buttons and Lights">             
+          <node id="LAMP_GREEN" type="BIT" offset="5"/>
+          <node id="LAMP_RED" type="BIT" offset="6"/>
+          <node id="LAMP_YELLOW" type="BIT" offset="7"/>    
+          <node id="LED_NOK" type="BIT" offset="8"/>
+          <node id="LED_MENU" type="BIT" offset="9"/>
+          <node id="LED_LABEL" type="BIT" offset="10"/>
+          <node id="LED_TIME" type="BIT" offset="11"/>
+          <node id="LED_START" type="BIT" offset="12"/>
+          <node id="LED_OK" type="BIT" offset="13"/>
+          <node id="BEEP" type="BIT" offset="14"/>                   
+        </node>   
+        <node id="OUT[2]" type="WORD" offset="2" desc="Outputs for tester app">
+          <node id="KA24" type="BIT" offset="0" desc="Operator Light"/>
+        </node>
+        <node id="IN[0]" type="WORD" offset="3" access="R" desc="Inputs Tester and UPS">
+          <node id="EP1" type="BIT" offset="0" desc="Overvoltage OK" color_off="red"/>
+          <node id="UPS_PWR_FAIL" type="BIT" offset="1" color_on="red"/>
+          <node id="UPS_OUT_ON" type="BIT" offset="2"/>
+          <node id="UPS_BAT_LOW" type="BIT" offset="3" color_on="red"/>
+          <node id="UPS_ALARM" type="BIT" offset="4" color_on="red"/>
+          <node id="24V" type="BIT" offset="5" desc="Source OK" color_off="red"/>
+          <node id="FA24.5" type="BIT" offset="6" desc="IAI" color_off="red"/>
+          <node id="FA24.6" type="BIT" offset="7" desc="cDAQ" color_off="red"/>
+          <node id="KH1" type="BIT" offset="8" desc="Emergency module OK" color_off="red"/>
+          <node id="KH2" type="BIT" offset="9" desc="Light safety OK" color_off="red"/>
+          <node id="PRESSURE" type="BIT" offset="10" color_off="red"/>
+          <node id="IAI_EMRG" type="BIT" offset="11" color_off="red"/>
+          <node id="IAI_ALARM" type="BIT" offset="12" color_off="red"/>
+          <node id="IAI_BLOCKED" type="BIT" offset="13" color_off="red" desc="KH2"/>
+        </node>                               
+        <node id="IN[1]" type="WORD" offset="4" access="R" desc="Inputs Buttons">
+          <node id="BUTTON_NOK" type="BIT" offset="0"/>
+          <node id="BUTTON_MENU" type="BIT" offset="1"/>
+          <node id="BUTTON_LABEL" type="BIT" offset="2"/>
+          <node id="BUTTON_TIME" type="BIT" offset="3"/>
+          <node id="BUTTON_START" type="BIT" offset="4"/>
+          <node id="BUTTON_OK" type="BIT" offset="5"/>
+          <node id="BUTTON_ESTOP" type="BIT" offset="6" color_off="red"/>
+        </node>
+        <node id="IN[2]" type="WORD" offset="5" access="R" desc="Inputs Sensors">   
+          <node id="IS_CONTACTDOWN" type="BIT" offset="1"/>
+          <node id="IS_CONTACTUP" type="BIT" offset="2"/>
+          <node id="IS_LOCK1" type="BIT" offset="3"/>
+          <node id="IS_LOCK2" type="BIT" offset="4"/>
+          <node id="IS_LOCK3" type="BIT" offset="5"/>
+          <node id="IS_LOCK4" type="BIT" offset="6"/>
+          <node id="IS_PANELINSERT1" type="BIT" offset="7"/>
+          <node id="IS_PANELINSERT2" type="BIT" offset="8"/>
+          <node id="IS_UNLOCK1" type="BIT" offset="9"/>
+          <node id="IS_UNLOCK2" type="BIT" offset="10"/>
+          <node id="IS_UNLOCK3" type="BIT" offset="11"/>
+          <node id="IS_UNLCOK4" type="BIT" offset="12"/>
+          <node id="IS_MASKDOWN" type="BIT" offset="13"/>
+          <node id="IS_MASKUP" type="BIT" offset="14"/>
+          <node id="HEAD_BUTTONSUP" type="BIT" offset="15"/>
+        </node>
+        <node id="IAI_POS" type="WORD" offset="6" desc="1...insert panel
+2...symbols
+3-5...display
+6...touch panel"/>
+        <node id="IAI_POS_ACT" type="WORD" offset="7" access="R"/>
+    </area>
+  </task>     
+</modbus>

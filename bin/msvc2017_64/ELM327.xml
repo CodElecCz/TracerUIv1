@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<elm327> 
+  <task id="ELM327" com="COM4" baud_rate="500000" loop_time="200" desc="ELM327">
+      <area id="CAN" count="128" desc="CAN trace" access="R">
+        <node id="0x0F1" type="UInt64" offset="0" desc="Defined message">
+          <node id="Byte[0]" type="Byte" offset="0" desc=""/>  
+          <node id="Byte[1]" type="Byte" offset="1" desc=""/>  
+          <node id="Byte[2]" type="Byte" offset="2" desc=""/>  
+          <node id="Byte[3]" type="Byte" offset="3" desc=""/>  
+          <node id="Byte[4]" type="Byte" offset="4" desc=""/>  
+          <node id="Byte[5]" type="Byte" offset="5" desc=""/>  
+          <node id="Byte[6]" type="Byte" offset="6" desc=""/>  
+          <node id="Byte[7]" type="Byte" offset="7" desc=""/>  
+        </node>
+      </area>
+  </task>
+</elm327>

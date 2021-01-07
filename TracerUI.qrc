@@ -1,0 +1,45 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/Letter-B-grey.ico</file>
+        <file>images/Letter-B-orange.ico</file>
+        <file>images/Letter-W-lg.ico</file>
+        <file>images/Letter-C-blue.ico</file>
+        <file>images/Letter-R-blue.ico</file>
+        <file>images/I/black.ico</file>
+        <file>images/I/blue.ico</file>
+        <file>images/I/dg.ico</file>
+        <file>images/I/gold.ico</file>
+        <file>images/I/grey.ico</file>
+        <file>images/I/lg.ico</file>
+        <file>images/I/orange.ico</file>
+        <file>images/I/pink.ico</file>
+        <file>images/I/red.ico</file>
+        <file>images/I/violet.ico</file>
+        <file>images/O/black.ico</file>
+        <file>images/O/blue.ico</file>
+        <file>images/O/dg.ico</file>
+        <file>images/O/gold.ico</file>
+        <file>images/O/grey.ico</file>
+        <file>images/O/lg.ico</file>
+        <file>images/O/orange.ico</file>
+        <file>images/O/pink.ico</file>
+        <file>images/O/red.ico</file>
+        <file>images/O/violet.ico</file>
+        <file>images/Letter-B-gold.ico</file>
+        <file>tracer.ico</file>
+        <file>images/Letter-V-blue.ico</file>
+        <file>images/Letter-D-blue.ico</file>
+        <file>images/Letter-U-blue.ico</file>
+        <file>images/start.ico</file>
+        <file>images/close.ico</file>
+        <file>images/task.ico</file>
+        <file>images/info.ico</file>
+        <file>images/CodElec.png</file>
+        <file>images/Letter-A-black.ico</file>
+        <file>images/Letter-B-black.ico</file>
+        <file>images/Letter-D-black.ico</file>
+        <file>images/Letter-U-black.ico</file>
+        <file>images/Letter-W-black.ico</file>
+        <file>images/list.png</file>
+    </qresource>
+</RCC>

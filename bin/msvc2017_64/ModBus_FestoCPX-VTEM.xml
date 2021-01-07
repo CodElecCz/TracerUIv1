@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="windows-1250"?>
+<modbus>
+  <task id="TESTER" ip="192.168.1.11" loop_time="100" desc="Festo Tester">
+    <!-- WORD access -->
+    <area id="Inputs" type="InputRegister" access="R" address="0" count="16" desc="Inputs">
+      <node id="Watchdog" type="WORD" offset="0" desc="Watchdog" />                 
+      <node id="Errors" type="WORD" offset="1" desc="Watchdog" >        
+        <node id="PcStop" type="BIT" offset="0" desc="PC not running" color_on="red"/>
+        <node id="Valve1Err" type="BIT" offset="1" desc="Valve1" color_on="red"/>
+        <node id="Valve2Err" type="BIT" offset="2" desc="Valve2" color_on="red"/>
+        <node id="Valve3Err" type="BIT" offset="3" desc="Valve3" color_on="red"/>
+      </node>
+    </area>
+    <area id="Outputs" type="InputRegister" address="16" count="16" desc="Outputs">
+      <node id="Watchdog" type="WORD" offset="0" desc="Watchdog" />                 
+      <node id="V1_SetPoint1" type="INT16" offset="1" desc="Setpoint opening degree, exhaust air flow control: 0...10000 x 0.01 %"  />
+      <node id="V1_SetPoint2" type="INT16" offset="2" desc="Setpoint air supply pressure during travel: 0...8000 x 1 mbar" />
+      <node id="V2_SetPoint1" type="INT16" offset="3" desc="Setpoint opening degree, exhaust air flow control: 0...10000 x 0.01 %"  />
+      <node id="V2_SetPoint2" type="INT16" offset="4" desc="Setpoint air supply pressure during travel: 0...8000 x 1 mbar" />
+      <node id="V3_SetPoint1" type="INT16" offset="5" desc="Setpoint opening degree, exhaust air flow control: 0...10000 x 0.01 %"  />
+      <node id="V3_SetPoint2" type="INT16" offset="6" desc="Setpoint air supply pressure during travel: 0...8000 x 1 mbar" />
+      <node id="V1_Manual" type="WORD" offset="7" desc="Valve1 - Manual Control" > 
+        <node id="Manual" type="BIT" offset="0" desc="" color_on="green"/>
+        <node id="Control" type="BYTE" offset="1" desc="Valve AppControl"/>
+      </node>  
+      <node id="V2_Manual" type="WORD" offset="8" desc="Valve1 - Manual Control" > 
+        <node id="Manual" type="BIT" offset="0" desc="" color_on="green"/>
+        <node id="Control" type="BYTE" offset="1" desc="Valve AppControl"/>
+      </node>  
+      <node id="V3_Manual" type="WORD" offset="9" desc="Valve1 - Manual Control" > 
+        <node id="Manual" type="BIT" offset="0" desc="" color_on="green"/>
+        <node id="Control" type="BYTE" offset="1" desc="Valve AppControl"/>
+      </node>     
+    </area>
+  </task>     
+</modbus>
