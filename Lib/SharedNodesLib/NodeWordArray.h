@@ -13,7 +13,7 @@ namespace Utilities
 		class LIB_API NodeWordArray : public INode
 		{
 		public:
-			NodeWordArray(string Id, NodeType Type, NodeAccess Access, UINT16 StartingAddress, UINT16 RequestedCount, UINT16 CustomType = 0);
+			NodeWordArray(string Id, NodeType Type, NodeAccess Access, UINT16 StartingAddress, UINT16 RequestedCount, UINT16 CustomType = 0, UINT32 LoopTimeMS = 0);
 			~NodeWordArray(void);
 
 		public:
@@ -41,6 +41,7 @@ namespace Utilities
 			UINT16 Address() const { return m_Address; }
 			UINT16 Count() const { return m_Count; }
 			UINT16 CustomType() const { return m_CustomType; }
+			UINT32 LoopTimeMS() const { return m_LoopTimeMS; }
 			void SetSerialDevId(UINT8 DevId) { m_SerialDevId = DevId; }
 			UINT8 GetSerialDevId() { return m_SerialDevId; }
 			void SetVarStr(string Variable) { m_VarStr = Variable; }
@@ -94,6 +95,7 @@ namespace Utilities
 			UINT16 m_Address;
 			UINT16 m_Count;
 			UINT16 m_CustomType;
+			UINT32 m_LoopTimeMS;
 		};
 	}
 }

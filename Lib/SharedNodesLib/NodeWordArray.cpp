@@ -6,8 +6,8 @@ namespace Utilities
 {
 	namespace Node
 	{
-		NodeWordArray::NodeWordArray(string Id, NodeType Type, NodeAccess Access, UINT16 StartingAddress, UINT16 RequestedCount, UINT16 CustomType)
-			: m_Address(StartingAddress), m_Count(RequestedCount), m_SerialDevId(49), m_CustomType(CustomType), INode(Id, Type, Access), m_rValueInit(true), m_ReadCounterGlobal(0), m_WriteCounterGlobal(0)
+		NodeWordArray::NodeWordArray(string Id, NodeType Type, NodeAccess Access, UINT16 StartingAddress, UINT16 RequestedCount, UINT16 CustomType, UINT32 LoopTimeMS)
+			: m_Address(StartingAddress), m_Count(RequestedCount), m_SerialDevId(49), m_CustomType(CustomType), m_LoopTimeMS(LoopTimeMS), INode(Id, Type, Access), m_rValueInit(true), m_ReadCounterGlobal(0), m_WriteCounterGlobal(0)
 		{
 			switch(Type)
 			{

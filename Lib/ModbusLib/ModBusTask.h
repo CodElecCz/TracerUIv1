@@ -35,10 +35,10 @@ namespace Utilities
 			void Create(const char* COMport, UINT32 LoopTimeMS, SerialProtocol::BaudRate Baudrate);
 			
 			//register task memory area for RW thread
-			NodeWordArray* CreateRegisterArea(const char* Id, UINT16 StartingAddress, UINT16 RequestedWordCount, NodeAccess Access = (NodeAccess)(NodeAccess_Read | NodeAccess_Write));
+			NodeWordArray* CreateRegisterArea(const char* Id, UINT16 StartingAddress, UINT16 RequestedWordCount, UINT32 LoopTimeMS = 0, NodeAccess Access = (NodeAccess)(NodeAccess_Read | NodeAccess_Write));
 
 			//register task memory area for R thread
-			NodeWordArray* CreateHoldingRegisterArea(const char* Id, UINT16 StartingAddress, UINT16 RequestedWordCount);
+			NodeWordArray* CreateHoldingRegisterArea(const char* Id, UINT16 StartingAddress, UINT16 RequestedWordCount, UINT32 LoopTimeMS = 0);
 			
 			//register task memory area for RW thread
 			NodeBitArray* CreateCoilArea(const char* Id, UINT16 StartingAddress, UINT16 RequestedBitCount, NodeAccess Access = (NodeAccess)(NodeAccess_Read | NodeAccess_Write), bool UseSingleCoil = true);

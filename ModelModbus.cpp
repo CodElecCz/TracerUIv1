@@ -73,10 +73,11 @@ void ModBusModel::update(QString itemName)
             QString areaName = areaIndex.data().toString();
             if(areaName == itemName)
             {
-                QModelIndex index0 = taskIndex.child(j, TreeUIColumn_Type);
+                //TODO: update only changes not all nodes
+                QModelIndex index0 = taskIndex.child(j, TreeUIColumn_Read);
                 QModelIndex index1 = taskIndex.child(j, TreeUIColumnSize-1);
                 emit dataChanged(index0, index1);
-                //qDebug() << "ModBusModel::update()";
+                //qDebug() << "ModBusModel::update(" << itemName << ")";
                 break;
             }
             else
@@ -529,6 +530,7 @@ void ModBusModel::setupModelData(const QString xmlFile, TreeItem *parent)
                     QString access = areaElem.attribute("access");
                     QString sdevid = areaElem.attribute("com_dev");
                     QString sdesc = areaElem.attribute("desc");
+                    QString st = areaElem.attribute("loop_time");
 
                     //default RW
                     bool isR = true;
@@ -550,7 +552,7 @@ void ModBusModel::setupModelData(const QString xmlFile, TreeItem *parent)
                     if(0==stype.compare("Register", Qt::CaseInsensitive) || stype.contains("InputRegister", Qt::CaseInsensitive))
                     {
 
-                        task->CreateRegisterArea(sid.toLatin1().constData(), saddress.toUShort(), scount.toUShort(), node_access);
+                        task->CreateRegisterArea(sid.toLatin1().constData(), saddress.toUShort(), scount.toUShort(), st.toULong(), node_access);
                         area = task->GetNodeInterface(sid.toLatin1().data());
                         area->Description(sdesc.toUtf8().constData());
                         area->OnValueChanged += event_handler(this, &ModBusModel::OnValueChanged);
@@ -565,7 +567,7 @@ void ModBusModel::setupModelData(const QString xmlFile, TreeItem *parent)
                     else  if(stype.contains("HoldingRegister", Qt::CaseInsensitive))
                     {
 
-                        task->CreateHoldingRegisterArea(sid.toLatin1().constData(), saddress.toUShort(), scount.toUShort());
+                        task->CreateHoldingRegisterArea(sid.toLatin1().constData(), saddress.toUShort(), scount.toUShort(), st.toULong());
                         area = task->GetNodeInterface(sid.toLatin1().data());
                         area->Description(sdesc.toUtf8().constData());
                         area->OnValueChanged += event_handler(this, &ModBusModel::OnValueChanged);

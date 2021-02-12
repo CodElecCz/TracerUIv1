@@ -346,7 +346,7 @@ QVariant TreeItem::data(int column) const
                     return QString("%1:%2:%3.%4").arg(t.wHour, 2, 10, QLatin1Char('0'))
                                                 .arg(t.wMinute, 2, 10, QLatin1Char('0'))
                                                 .arg(t.wSecond, 2, 10, QLatin1Char('0'))
-                                                .arg(t.wMilliseconds, 2, 10, QLatin1Char('0'));
+                                                .arg(t.wMilliseconds, 3, 10, QLatin1Char('0'));
                 }
             }
             break;
@@ -359,6 +359,9 @@ QVariant TreeItem::data(int column) const
                 case NodeType_Byte:
                 case NodeType_Word:
                 case NodeType_DWord:
+                case NodeType_Int16:
+                case NodeType_Int32:
+                case NodeType_Int64:
                 case NodeType_UInt64:
                 case NodeType_Real32:
                 case NodeType_Real64:
@@ -366,7 +369,7 @@ QVariant TreeItem::data(int column) const
                     return QString("%1:%2:%3.%4").arg(t.wHour, 2, 10, QLatin1Char('0'))
                                                 .arg(t.wMinute, 2, 10, QLatin1Char('0'))
                                                 .arg(t.wSecond, 2, 10, QLatin1Char('0'))
-                                                .arg(t.wMilliseconds, 2, 10, QLatin1Char('0'));
+                                                .arg(t.wMilliseconds, 3, 10, QLatin1Char('0'));
                 }
             }
             break;

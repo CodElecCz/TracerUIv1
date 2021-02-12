@@ -7,7 +7,7 @@
 extern "C" {
 #endif
 
-	typedef void(*OnValueChanged_t)(const char*, UINT64);
+	typedef void(*OnValueChanged_t)(INode*, UINT64);
 
 	typedef struct _SModBusWrapper
 	{

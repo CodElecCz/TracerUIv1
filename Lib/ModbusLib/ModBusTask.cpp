@@ -36,7 +36,7 @@ namespace Utilities
 			m_ModBusProtocol = ModBusProtocol::ModBusProtocolPtr(new ModBusProtocol(COMport, Baudrate));
 		}
 
-		NodeWordArray* ModBusTask::CreateRegisterArea(const char* Id, UINT16 StartingAddress, UINT16 RequestedWordCount, NodeAccess Access)
+		NodeWordArray* ModBusTask::CreateRegisterArea(const char* Id, UINT16 StartingAddress, UINT16 RequestedWordCount, UINT32 LoopTimeMS, NodeAccess Access)
 		{
 			string id(Id);
 
@@ -49,13 +49,13 @@ namespace Utilities
 				throw Exc(this->Id(), msg);
 			}
 
-			NodeWordArray::NodeWordArrayPtr area(new NodeWordArray(Id, NodeType_WordArray, Access, StartingAddress, RequestedWordCount, ModBusAreaRegister));
+			NodeWordArray::NodeWordArrayPtr area(new NodeWordArray(Id, NodeType_WordArray, Access, StartingAddress, RequestedWordCount, ModBusAreaRegister, LoopTimeMS));
 			m_Nodes[id] = area;
 
 			return area.get();
 		}
 
-		NodeWordArray* ModBusTask::CreateHoldingRegisterArea(const char* Id, UINT16 StartingAddress, UINT16 RequestedWordCount)
+		NodeWordArray* ModBusTask::CreateHoldingRegisterArea(const char* Id, UINT16 StartingAddress, UINT16 RequestedWordCount, UINT32 LoopTimeMS)
 		{
 			string id(Id);
 
@@ -68,7 +68,7 @@ namespace Utilities
 				throw Exc(this->Id(), msg);
 			}
 
-			NodeWordArray::NodeWordArrayPtr area(new NodeWordArray(Id, NodeType_WordArray, (NodeAccess)NodeAccess_Read, StartingAddress, RequestedWordCount, ModBusAreaHoldingRegister));
+			NodeWordArray::NodeWordArrayPtr area(new NodeWordArray(Id, NodeType_WordArray, (NodeAccess)NodeAccess_Read, StartingAddress, RequestedWordCount, ModBusAreaHoldingRegister, LoopTimeMS));
 			m_Nodes[id] = area;
 
 			return area.get();
@@ -413,7 +413,9 @@ namespace Utilities
 			ModBusTask*	me = (ModBusTask*)pArguments;
 			UINT32 wait = -1;
 			clock_t t;
-			UINT32 WAIT = me->m_LoopTimeMS; //ms default 20ms
+			UINT32 loopTime = me->m_LoopTimeMS; //ms default 20ms
+			UINT32 rateCnt = 0;
+			bool error = false;
 
 			UINT32 dataAlloc = 128;
 			vector<UINT16> data(dataAlloc);
@@ -425,7 +427,7 @@ namespace Utilities
 
 			do
 			{
-				t = clock();
+				t = clock();				
 
 				map<string, INode::INodePtr>::iterator it = me->m_Nodes.begin();
 				while (it != me->m_Nodes.end())
@@ -443,34 +445,45 @@ namespace Utilities
 							case ModBusAreaRegister: //input register
 							{
 								UINT32 dataSize = area->Count();
+								UINT32 areaLoopTimeMS = area->LoopTimeMS();
+								UINT16 rate = areaLoopTimeMS / loopTime;
 
-								//check allocation
-								if (dataAlloc < dataSize)
+								if (rate <= 1 || (rate > 1 && rateCnt%rate == 0))
 								{
-									data.resize(dataSize);
-									flag.resize(dataSize);
-									dataAlloc = dataSize;
-								}
+									//check allocation
+									if (dataAlloc < dataSize)
+									{
+										data.resize(dataSize);
+										flag.resize(dataSize);
+										dataAlloc = dataSize;
+									}
 
-								me->ThreadAreaRegisterRW(area, data.data(), flag.data());
+									me->ThreadAreaRegisterRW(area, data.data(), flag.data());
+									area->ClearExceptionForAllNodes();
+								}
 							}
 							break;
 							case ModBusAreaHoldingRegister: //holding register
 							{
 								UINT32 dataSize = area->Count();
+								UINT32 areaLoopTimeMS = area->LoopTimeMS();
+								UINT16 rate = areaLoopTimeMS / loopTime;
 
-								//check allocation
-								if (dataAlloc < dataSize)
+								if (rate <= 1 || (rate > 1 && rateCnt%rate == 0))
 								{
-									data.resize(dataSize);
-									dataAlloc = dataSize;
-								}
+									//check allocation
+									if (dataAlloc < dataSize)
+									{
+										data.resize(dataSize);
+										dataAlloc = dataSize;
+									}
 
-								me->ThreadAreaHoldingRegisterR(area, data.data());
+									me->ThreadAreaHoldingRegisterR(area, data.data());
+									area->ClearExceptionForAllNodes();
+								}
 							}
 							break;
-							}
-							area->ClearExceptionForAllNodes();
+							}							
 							break;
 						}
 						case NodeType_BitArray:
@@ -525,26 +538,37 @@ namespace Utilities
 						area->SetExceptionForAllNodes(e);
 						area->OnErrorChanged();
 						
-						me->SetException(e);
+						me->SetException(e);	
+						error = true;
 					}
 					it++;
+				} //while (it != me->m_Nodes.end())
+
+				//rate counter update
+				if (error)
+				{
+					rateCnt = 0;
+					error = false;
 				}
+				else
+					rateCnt++;
 				
 				if(!me->m_TaskIsRunning)
 					me->m_TaskIsRunning = true;
 
 				//calculate next wait
 				UINT32 elapsed = (UINT32)(clock() - t);
-				if(WAIT > elapsed)
-					wait = WAIT - elapsed;
+				if(loopTime > elapsed)
+					wait = loopTime - elapsed;
 				else
 				{
 #ifdef _DEBUG
-					if(elapsed>(WAIT*1.5))
-						printf("Task timeout: %d [ms]; default: %d [ms]\n", elapsed, WAIT);
+					if(elapsed>(loopTime*1.5))
+						printf("Task timeout: %d [ms]; default: %d [ms]\n", elapsed, loopTime);
 #endif
 					wait = 1;
-				}
+				}				
+
 			} while(WaitForSingleObject( me->m_StopEvent, wait) != WAIT_OBJECT_0);
 
 			me->m_TaskIsRunning = false;
